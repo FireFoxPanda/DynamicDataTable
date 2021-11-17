@@ -3,14 +3,15 @@ import getDatableInfo from "@salesforce/apex/DynamicDataTableHelper.getDatableIn
 
 export default class DynamicDataTable extends LightningElement {
   sobjectName = "Account";
-  fieldList = [];
+  fieldList = "name,";
   @track dataTableInfo;
   @track dataTableRecords;
+  var;
   columns;
 
   @wire(getDatableInfo, {
-    sobjApiName: this.sobjectName,
-    columnFields: this.fieldList
+    sobjApiName: "Account",
+    columnFields: "name,accountsource"
   })
   wiredData({ error, data }) {
     if (data) {

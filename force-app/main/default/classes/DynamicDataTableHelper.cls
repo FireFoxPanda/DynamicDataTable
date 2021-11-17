@@ -1,4 +1,4 @@
-public with sharing class DynamicDataTableHelper {
+public without sharing class DynamicDataTableHelper {
 
     @AuraEnabled (cacheable=true)
     public static DynamicDataTableResponseWrapper getDatableInfo(String sobjApiName, string columnFields) {
@@ -58,7 +58,7 @@ public with sharing class DynamicDataTableHelper {
             public String type {get;set;}
             public ColumnPropertiesWrapper(String label, String fieldName, String type)
             {
-                this.label     = label;
+                this.label     = label; 
                 this.fieldName = fieldName;
                 this.type      = type;          
             }
