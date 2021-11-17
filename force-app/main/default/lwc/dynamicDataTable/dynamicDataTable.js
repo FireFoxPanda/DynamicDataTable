@@ -6,7 +6,7 @@ export default class DynamicDataTable extends LightningElement {
   fieldList = "name,";
   @track dataTableInfo;
   @track dataTableRecords;
-  var;
+
   columns;
 
   @wire(getDatableInfo, {
