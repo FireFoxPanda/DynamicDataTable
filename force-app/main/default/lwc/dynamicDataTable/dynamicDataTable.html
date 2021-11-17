@@ -1,9 +1,13 @@
 <template>
-    <lightning-datatable
+  <lightning-datatable
     key-field="id"
     columns={columns}
     data={dataTableRecords}
     hide-checkbox-column
-    >
-</lightning-datatable>
+    default-sort-direction={defaultSortDirection}
+    sorted-direction={sortDirection}
+    sorted-by={sortedBy}
+    onsort={onHandleSort}
+  >
+  </lightning-datatable>
 </template>

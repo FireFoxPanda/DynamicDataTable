@@ -56,11 +56,15 @@ public without sharing class DynamicDataTableHelper {
             public String fieldName {get;set;}
             @AuraEnabled
             public String type {get;set;}
+            @AuraEnabled
+            public boolean sortable {get;set;}
+
             public ColumnPropertiesWrapper(String label, String fieldName, String type)
             {
                 this.label     = label; 
                 this.fieldName = fieldName;
-                this.type      = type;          
+                this.type      = type; 
+                this.sortable = true;         
             }
     }
 
