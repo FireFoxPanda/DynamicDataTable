@@ -1,13 +1,40 @@
 <template>
-  <lightning-datatable
-    key-field="id"
-    columns={columns}
-    data={dataTableRecords}
-    hide-checkbox-column
-    default-sort-direction={defaultSortDirection}
-    sorted-direction={sortDirection}
-    sorted-by={sortedBy}
-    onsort={onHandleSort}
-  >
-  </lightning-datatable>
+  <lightning-layout>
+    <lightning-datatable
+      key-field="id"
+      columns={columns}
+      data={shownRecords}
+      hide-checkbox-column
+      default-sort-direction={defaultSortDirection}
+      sorted-direction={sortDirection}
+      sorted-by={sortedBy}
+      onsort={onHandleSort}
+    >
+    </lightning-datatable>
+
+    <lightning-combobox
+      name="records/page"
+      label="Records per page :"
+      value={pageSize}
+      placeholder="Select Records/Page"
+      options={pageSizeOptions}
+      onchange={handleRecordsPerPage}
+      required
+    ></lightning-combobox>
+
+    <lightning-button
+      label="Previous"
+      variant="brand"
+      onclick={handlePreviousPage}
+      disabled={hidePrevious}
+    ></lightning-button>
+
+    <lightning-button
+      label="Next"
+      variant="brand"
+      onclick={handleNextPage}
+      disabled={hideNext}
+    ></lightning-button>
+  </lightning-layout>
+  Total Pages - {totalPages} Page Number - {pageNumber} Page Size - {pageSize}
 </template>
