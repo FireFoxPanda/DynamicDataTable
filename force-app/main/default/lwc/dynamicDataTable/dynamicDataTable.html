@@ -1,40 +1,78 @@
 <template>
-  <lightning-layout>
-    <lightning-datatable
-      key-field="id"
-      columns={columns}
-      data={shownRecords}
-      hide-checkbox-column
-      default-sort-direction={defaultSortDirection}
-      sorted-direction={sortDirection}
-      sorted-by={sortedBy}
-      onsort={onHandleSort}
+  <lightning-layout horizontal-align="end" pull-to-boundary="small">
+    <lightning-layout-item
+      size="2"
+      padding="around-small"
+      alignment-bump="left"
     >
-    </lightning-datatable>
-
-    <lightning-combobox
-      name="records/page"
-      label="Records per page :"
-      value={pageSize}
-      placeholder="Select Records/Page"
-      options={pageSizeOptions}
-      onchange={handleRecordsPerPage}
-      required
-    ></lightning-combobox>
-
-    <lightning-button
-      label="Previous"
-      variant="brand"
-      onclick={handlePreviousPage}
-      disabled={hidePrevious}
-    ></lightning-button>
-
-    <lightning-button
-      label="Next"
-      variant="brand"
-      onclick={handleNextPage}
-      disabled={hideNext}
-    ></lightning-button>
+      <lightning-combobox
+        name="records/page"
+        label="Records per page :"
+        value={pageSize}
+        placeholder="Select Records/Page"
+        options={pageSizeOptions}
+        onchange={handleRecordsPerPage}
+        required
+      ></lightning-combobox>
+    </lightning-layout-item>
+    <lightning-layout-item
+      size="8"
+      alignment-bump="center"
+      class="slds-align_absolute-center"
+    >
+      <lightning-input
+        label="Search"
+        type="search"
+        placeholder="Search by any Value"
+        onchange={handleSearch}
+      ></lightning-input>
+    </lightning-layout-item>
+    <lightning-layout-item
+      size="2"
+      class="slds-float_right slds-text-align_right"
+      alignment-bump="bottom"
+      padding="around-small"
+    >
+      <div>Total Records : {totalRecords}</div>
+    </lightning-layout-item>
   </lightning-layout>
-  Total Pages - {totalPages} Page Number - {pageNumber} Page Size - {pageSize}
+  <lightning-layout multiple-rows>
+    <lightning-layout-item size="12">
+      <lightning-datatable
+        key-field="id"
+        columns={columns}
+        data={shownRecords}
+        hide-checkbox-column
+        default-sort-direction={defaultSortDirection}
+        sorted-direction={sortDirection}
+        sorted-by={sortedBy}
+        onsort={onHandleSort}
+      >
+      </lightning-datatable>
+    </lightning-layout-item>
+    <template if:true={showPagination}>
+      <lightning-layout-item
+        size="12"
+        padding="around-medium"
+        class="slds-align_absolute-center"
+      >
+        <lightning-button
+          label="Previous"
+          variant="brand"
+          onclick={handlePreviousPage}
+          disabled={hidePrevious}
+          class="slds-p-horizontal_medium"
+        ></lightning-button>
+        Page Number - {pageNumber} of {totalPages}
+
+        <lightning-button
+          label="Next"
+          variant="brand"
+          onclick={handleNextPage}
+          disabled={hideNext}
+          class="slds-p-horizontal_medium"
+        ></lightning-button>
+      </lightning-layout-item>
+    </template>
+  </lightning-layout>
 </template>

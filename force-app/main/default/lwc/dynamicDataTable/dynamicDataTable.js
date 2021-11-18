@@ -9,14 +9,10 @@ export default class DynamicDataTable extends LightningElement {
   defaultSortDirection = "asc";
   sortDirection = "asc";
   sortedBy;
-  @api pageSizeOptions = [
-    { label: "5", value: "5" },
-    { label: "10", value: "10" },
-    { label: "15", value: "15" },
-    { label: "20", value: "20" }
-  ];
+  showPagination = false;
+
   totalRecords = 0; //Total no.of records
-  pageSize = 5;
+  pageSize = 10;
   totalPages = 0; //Total no.of pages
   pageNumber = 1; //Page number
   hidePrevious = true;
@@ -25,19 +21,28 @@ export default class DynamicDataTable extends LightningElement {
   firstRecord;
   lastRecord;
   columns;
+  originalRecords;
+
+  get pageSizeOptions() {
+    return [
+      { label: "10", value: 10 },
+      { label: "15", value: 15 },
+      { label: "20", value: 20 }
+    ];
+  }
 
   @wire(getDatableInfo, {
     sobjApiName: "Account",
-    columnFields: "name,accountsource"
+    columnFields: "name,accountsource,createddate"
   })
   wiredData({ error, data }) {
     if (data) {
       this.dataTableInfo = data;
       this.columns = data.lstDataTableColumnProperties;
-
       this.totalRecords = data.lstDataTableRecords.length;
-
       this.dataTableRecords = data.lstDataTableRecords;
+      this.originalRecords = data.lstDataTableRecords;
+      this.showPagination = true;
       this.displayPaginationRecords();
     }
   }
@@ -85,7 +90,7 @@ export default class DynamicDataTable extends LightningElement {
 
   displayPaginationRecords() {
     this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
-    this.setPaginationControls();
+    this.setPagination();
 
     this.firstRecord = (this.pageNumber - 1) * this.pageSize;
     this.endingRecord = this.pageSize * this.pageNumber;
@@ -103,7 +108,7 @@ export default class DynamicDataTable extends LightningElement {
     console.log(this.shownRecords);
   }
 
-  setPaginationControls() {
+  setPagination() {
     if (this.totalPages === 1) {
       this.hidePrevious = true;
       this.hideNext = true;
@@ -117,6 +122,24 @@ export default class DynamicDataTable extends LightningElement {
     } else if (this.pageNumber >= this.totalPages) {
       this.pageNumber = this.totalPages;
       this.hideNext = true;
+    }
+  }
+
+  handleSearch(event) {
+    const searchKey = event.target.value.toLowerCase();
+    if (searchKey) {
+      this.dataTableRecords = this.originalRecords.filter((record) =>
+        JSON.stringify(record)
+          .replace(/\s+/g, " ")
+          .toLowerCase()
+          .includes(searchKey)
+      );
+      this.totalRecords = this.dataTableRecords.length;
+      this.displayPaginationRecords();
+    } else {
+      this.dataTableRecords = this.originalRecords;
+      this.totalRecords = this.originalRecords.length;
+      this.displayPaginationRecords();
     }
   }
 }
