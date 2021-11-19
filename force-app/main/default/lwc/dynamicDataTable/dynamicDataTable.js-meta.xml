@@ -8,5 +8,16 @@
         <target>lightning__AppPage</target>
         <target>lightning__HomePage</target>
         <target>lightningCommunity__Default</target>
+        <target>lightning__FlowScreen</target>
     </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="sobjectName" type="String" label="Sobject API Name" 
+                        description="API Name of Object"/>
+                        <property name="fieldList" type="String" label="Field Api Names" 
+                        description="Comma seperated field api names"/>
+                        <property name="maxRowsSelected" type="Integer" label="No of rows selected at max" 
+                        description="No of rows which can be selecetd by user at a time"/>
+        </targetConfig>
+    </targetConfigs>
 </LightningComponentBundle>

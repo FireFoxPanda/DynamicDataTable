@@ -15,10 +15,21 @@
         required
       ></lightning-combobox>
     </lightning-layout-item>
+
     <lightning-layout-item
-      size="8"
-      alignment-bump="center"
+      size="7"
       class="slds-align_absolute-center"
+      padding="around-small"
+    >
+      <div>
+        Total Records : {totalRecords}
+        <p>No. of selected rows : {noOfselecteRows}</p>
+      </div>
+    </lightning-layout-item>
+    <lightning-layout-item
+      size="3"
+      alignment-bump="right"
+      padding="around-small"
     >
       <lightning-input
         label="Search"
@@ -27,28 +38,29 @@
         onchange={handleSearch}
       ></lightning-input>
     </lightning-layout-item>
-    <lightning-layout-item
-      size="2"
-      class="slds-float_right slds-text-align_right"
-      alignment-bump="bottom"
-      padding="around-small"
-    >
-      <div>Total Records : {totalRecords}</div>
-    </lightning-layout-item>
   </lightning-layout>
   <lightning-layout multiple-rows>
     <lightning-layout-item size="12">
       <lightning-datatable
-        key-field="id"
+        key-field="Id"
         columns={columns}
         data={shownRecords}
-        hide-checkbox-column
+        max-row-selection={maxRowsSelected}
+        onrowselection={handleRowSelection}
         default-sort-direction={defaultSortDirection}
         sorted-direction={sortDirection}
         sorted-by={sortedBy}
         onsort={onHandleSort}
       >
       </lightning-datatable>
+    </lightning-layout-item>
+    <lightning-layout-item
+      size="12"
+      padding="around-medium"
+      class="slds-align_absolute-center"
+      if:true={getRecordsEmpty}
+    >
+      No Records Founds
     </lightning-layout-item>
     <template if:true={showPagination}>
       <lightning-layout-item

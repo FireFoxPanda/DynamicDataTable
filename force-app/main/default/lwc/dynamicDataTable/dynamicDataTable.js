@@ -2,17 +2,20 @@ import { LightningElement, track, wire, api } from "lwc";
 import getDatableInfo from "@salesforce/apex/DynamicDataTableHelper.getDatableInfo";
 
 export default class DynamicDataTable extends LightningElement {
-  sobjectName = "Account";
-  fieldList = "name,";
+  @api sobjectName;
+  @api fieldList;
+  @api maxRowsSelected = 5;
   @track dataTableInfo;
   @track dataTableRecords;
+  @track preSelectedRows = [];
+  @track allSelectedRows = [];
   defaultSortDirection = "asc";
   sortDirection = "asc";
   sortedBy;
   showPagination = false;
 
   totalRecords = 0; //Total no.of records
-  pageSize = 10;
+  pageSize = "10";
   totalPages = 0; //Total no.of pages
   pageNumber = 1; //Page number
   hidePrevious = true;
@@ -22,21 +25,24 @@ export default class DynamicDataTable extends LightningElement {
   lastRecord;
   columns;
   originalRecords;
+  @track selectedRows = [];
 
   get pageSizeOptions() {
     return [
-      { label: "10", value: 10 },
-      { label: "15", value: 15 },
-      { label: "20", value: 20 }
+      { label: "10", value: "10" },
+      { label: "15", value: "15" },
+      { label: "20", value: "20" }
     ];
   }
 
   @wire(getDatableInfo, {
-    sobjApiName: "Account",
-    columnFields: "name,accountsource,createddate"
+    sobjApiName: "$sobjectName",
+    columnFields: "$fieldList"
   })
   wiredData({ error, data }) {
     if (data) {
+      let my_ids = [];
+
       this.dataTableInfo = data;
       this.columns = data.lstDataTableColumnProperties;
       this.totalRecords = data.lstDataTableRecords.length;
@@ -75,7 +81,7 @@ export default class DynamicDataTable extends LightningElement {
   }
 
   handleRecordsPerPage(event) {
-    this.pageSize = event.target.value;
+    this.pageSize = String(event.target.value);
     this.displayPaginationRecords();
   }
 
@@ -89,6 +95,7 @@ export default class DynamicDataTable extends LightningElement {
   }
 
   displayPaginationRecords() {
+    console.log("INM preSelectedRows ", this.preSelectedRows);
     this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
     this.setPagination();
 
@@ -141,5 +148,19 @@ export default class DynamicDataTable extends LightningElement {
       this.totalRecords = this.originalRecords.length;
       this.displayPaginationRecords();
     }
+  }
+
+  handleRowSelection(event) {
+    this.selectedRows = event.detail.selectedRows;
+    console.log(JSON.stringify(this.selectedRows));
+  }
+
+  get noOfselecteRows() {
+    return this.selectedRows?.length ? this.selectedRows?.length : 0;
+  }
+
+  get getRecordsEmpty() {
+    console.log("this.shownRecords?.length", this.shownRecords?.length);
+    return this.shownRecords?.length <= 0 ? true : false;
   }
 }
