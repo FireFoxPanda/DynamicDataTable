@@ -1,0 +1,139 @@
+<aura:component
+  implements="lightning:availableForFlowScreens,lightning:availableForFlowActions,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+  access="global"
+  controller="DynamicDataTableHelper"
+>
+  <aura:attribute
+    name="sobjApiName"
+    type="String"
+    default="Account"
+  ></aura:attribute>
+  <aura:attribute
+    name="fieldList"
+    type="String"
+    default="name,accountsource"
+  ></aura:attribute>
+  <aura:attribute
+    name="pageSizeOptions"
+    type="List"
+    default="[
+                             { label: '10', value: '10' },
+                             { label: '15', value: '15'},
+                             { label: '20', value: '20' }
+                             ]"
+  ></aura:attribute>
+
+  <aura:attribute name="pageSize" type="Integer" default="10"></aura:attribute>
+  <aura:attribute
+    name="totalRecords"
+    type="Integer"
+    default="0"
+  ></aura:attribute>
+  <aura:attribute
+    name="noOfselecteRows"
+    type="Integer"
+    default="0"
+  ></aura:attribute>
+  <aura:attribute name="pageNumber" type="Integer" default="1"></aura:attribute>
+  <aura:attribute name="totalPages" type="Integer" default="0"></aura:attribute>
+  <aura:attribute name="shownRecords" type="Object" />
+  <aura:attribute name="searchedData" type="List" />
+  <aura:attribute name="allData" type="list" />
+  <aura:attribute name="searchPhrase" type="String" />
+  <aura:attribute name="selectedRows" type="List" />
+
+  <aura:attribute name="columns" type="List" />
+  <aura:attribute name="maxRowsSelected" type="Integer" default="5" />
+  <aura:attribute name="showPagination" type="Boolean" default="false" />
+
+  <aura:attribute name="sortDirection" type="String" default="asc" />
+  <aura:attribute name="defaultSortDirection" type="String" default="asc" />
+  <aura:attribute name="sortedBy" type="String" />
+
+  <aura:handler name="init" value="{!this }" action="{!c.init }" />
+
+  <lightning:layout horizontalAlign="end" pullToBoundary="small">
+    <lightning:layoutItem size="2" padding="around-small" alignmentBump="left">
+      <lightning:combobox
+        name="records/page"
+        label="Records per page :"
+        value="{!v.pageSize}"
+        placeholder="Select Progress"
+        options="{!v.pageSizeOptions}"
+        onchange="{!c.handleChange }"
+      />
+    </lightning:layoutItem>
+
+    <lightning:layoutItem
+      size="7"
+      class="slds-align_absolute-center"
+      padding="around-small"
+    >
+      <div>
+        Total Records : {!v.totalRecords}
+        <p>No. of selected rows : {!v.noOfselecteRows}</p>
+      </div>
+    </lightning:layoutItem>
+    <lightning:layoutItem size="3" alignmentBump="right" padding="around-small">
+      <lightning:input
+        label="Search"
+        type="search"
+        value="{! v.searchPhrase }"
+        placeholder="Search by any Value"
+        onchange="{!c.handleSearch}"
+      ></lightning:input>
+    </lightning:layoutItem>
+  </lightning:layout>
+  <lightning:layout multipleRows="true">
+    <lightning:layoutItem size="12">
+      <lightning:datatable
+        aura:id="dynamicDataTable"
+        keyField="Id"
+        columns="{!v.columns}"
+        data="{!v.shownRecords}"
+        maxRowSelection="{!v.maxRowsSelected}"
+        onrowselection="{!c.handleRowSelection}"
+        showRowNumberColumn="true"
+        defaultSortDirection="{!v.defaultSortDirection}"
+        sortedDirection="{!v.sortDirection}"
+        sortedBy="{!v.sortedBy}"
+        onsort="{!c.handleSort}"
+      >
+        >
+      </lightning:datatable>
+    </lightning:layoutItem>
+    <aura:if isTrue="{!not(empty(v.shownRecords)) }">
+      <lightning:layoutItem
+        size="12"
+        padding="around-medium"
+        class="slds-align_absolute-center"
+      >
+        No Records Founds
+      </lightning:layoutItem>
+    </aura:if>
+    <aura:if isTrue="{! v.showPagination }">
+      <lightning:layoutItem
+        size="12"
+        padding="around-medium"
+        class="slds-align_absolute-center"
+      >
+        <lightning:button
+          label="Previous"
+          variant="brand"
+          onclick="{!c.handlePreviousPage}"
+          disabled="{!v.pageNumber == 1}"
+          class="slds-p-horizontal_medium"
+        ></lightning:button>
+        Page Number - {!v.pageNumber} of {!v.totalPages}
+
+        <lightning:button
+          label="Next"
+          variant="brand"
+          onclick="{!c.handleNextPage}"
+          disabled="{!v.pageNumber == totalPages}"
+          class="slds-p-horizontal_medium"
+        ></lightning:button>
+      </lightning:layoutItem>
+    </aura:if>
+  </lightning:layout>
+</aura:component>

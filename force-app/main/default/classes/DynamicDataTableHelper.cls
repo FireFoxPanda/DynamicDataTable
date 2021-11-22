@@ -1,9 +1,10 @@
 public without sharing class DynamicDataTableHelper {
-  @AuraEnabled(cacheable=true)
+  @AuraEnabled
   public static DynamicDataTableResponseWrapper getDatableInfo(
     String sobjApiName,
     string columnFields
   ) {
+    system.debug('sobjApiName --> '+sobjApiName +'  columnFields--> '+columnFields);
     Map<String, String> returnMap = new Map<String, String>();
     list<String> columnList = new List<String>();
     DynamicDataTableResponseWrapper response = new DynamicDataTableResponseWrapper();
@@ -53,7 +54,7 @@ public without sharing class DynamicDataTableHelper {
         String.escapeSingleQuotes(query)
       );
       response.lstDataTableColumnProperties = lstColumnProperties;
-
+      system.debug('response ------ >  ' + response);
       return response;
     }
     return null;
