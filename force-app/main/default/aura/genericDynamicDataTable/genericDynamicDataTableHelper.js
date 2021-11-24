@@ -44,6 +44,8 @@
     );
     let totalPages = countTotalPage > 0 ? countTotalPage : 1;
     component.set("v.totalPages", totalPages);
+    component.set("v.totalRecords", allData.length);
+
     component.set("v.pageNumber", 1);
     this.displayPaginationRecords(component);
   },
@@ -85,8 +87,30 @@
     var cloneData = component.get("v.allData");
     cloneData.sort(this.sortBy(sortedBy, sortDirection === "asc" ? 1 : -1));
 
-    component.set("v.shownRecords", cloneData);
+    component.set("v.searchedData", cloneData);
     component.set("v.sortDirection", sortDirection);
     component.set("v.sortedBy", sortedBy);
+    this.setPagination(component, component.get("v.searchedData"));
+  },
+
+  searchRecordsBySearchPhrase: function (component) {
+    let searchKey = component.get("v.searchPhrase").toLowerCase();
+    let allData = component.get("v.allData");
+    let searchedData = [];
+    if (searchKey) {
+      searchedData = allData.filter((record) =>
+        JSON.stringify(record)
+          .replace(/\s+/g, " ")
+          .toLowerCase()
+          .includes(searchKey)
+      );
+      component.set("v.searchedData", searchedData);
+      this.setPagination(component, searchedData);
+    } else {
+      searchedData = allData;
+      component.set("v.searchedData", searchedData);
+      //this.totalRecords = this.originalRecords.length;
+      this.setPagination(component, searchedData);
+    }
   }
 });

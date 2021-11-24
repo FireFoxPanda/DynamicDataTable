@@ -41,6 +41,9 @@
   <aura:attribute name="allData" type="list" />
   <aura:attribute name="searchPhrase" type="String" />
   <aura:attribute name="selectedRows" type="List" />
+  <aura:attribute name="preSelectedRows" type="List" />
+  <aura:attribute name="currentPageRows" type="List" />
+  <aura:attribute name="hasPageChanged" type="Boolean" />
 
   <aura:attribute name="columns" type="List" />
   <aura:attribute name="maxRowsSelected" type="Integer" default="5" />
@@ -98,17 +101,18 @@
         sortedDirection="{!v.sortDirection}"
         sortedBy="{!v.sortedBy}"
         onsort="{!c.handleSort}"
+        selectedRows="{!v.selectedRows}"
       >
         >
       </lightning:datatable>
     </lightning:layoutItem>
-    <aura:if isTrue="{!not(empty(v.shownRecords)) }">
+    <aura:if isTrue="{!empty(v.shownRecords) }">
       <lightning:layoutItem
         size="12"
         padding="around-medium"
-        class="slds-align_absolute-center"
+        class="slds-align_absolute-center norecords"
       >
-        No Records Founds
+        <h1>No Records Founds</h1>
       </lightning:layoutItem>
     </aura:if>
     <aura:if isTrue="{! v.showPagination }">
