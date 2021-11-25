@@ -75,7 +75,6 @@
       <div>
         Total Records : {!v.totalRecords}
         <p>No. of selected rows : {!v.noOfselecteRows}</p>
-        <p>Page Changed - {!v.hasPageChanged}</p>
       </div>
     </lightning:layoutItem>
     <lightning:layoutItem size="3" alignmentBump="right" padding="around-small">
@@ -117,28 +116,38 @@
       </lightning:layoutItem>
     </aura:if>
     <aura:if isTrue="{! v.showPagination }">
-      <lightning:layoutItem
-        size="12"
-        padding="around-medium"
-        class="slds-align_absolute-center"
-      >
-        <lightning:button
-          label="Previous"
-          variant="brand"
-          onclick="{!c.handlePreviousPage}"
-          disabled="{!v.pageNumber == 1}"
-          class="slds-p-horizontal_medium"
-        ></lightning:button>
-        Page Number - {!v.pageNumber} of {!v.totalPages}
+      <lightning:layout class="slds-align_absolute-center">
+        <lightning:layoutItem
+          size="4"
+          padding="around-medium"
+          class="slds-float_right"
+          alignmentBump="right"
+          ><lightning:button
+            label="Previous"
+            variant="brand"
+            onclick="{!c.handlePreviousPage}"
+            disabled="{!v.pageNumber == 1}"
+            class="slds-p-horizontal_medium"
+          ></lightning:button
+        ></lightning:layoutItem>
+        <lightning:layoutItem size="6" padding="around-medium">
+          Page Number - {!v.pageNumber} of {!v.totalPages}</lightning:layoutItem
+        >
 
-        <lightning:button
-          label="Next"
-          variant="brand"
-          onclick="{!c.handleNextPage}"
-          disabled="{!v.pageNumber == totalPages}"
-          class="slds-p-horizontal_medium"
-        ></lightning:button>
-      </lightning:layoutItem>
+        <lightning:layoutItem
+          size="4"
+          padding="around-medium"
+          class="slds-float_left"
+        >
+          <lightning:button
+            label="Next"
+            variant="brand"
+            onclick="{!c.handleNextPage}"
+            disabled="{!v.pageNumber == v.totalPages}"
+            class="slds-p-horizontal_medium slds-float_left"
+          ></lightning:button
+        ></lightning:layoutItem>
+      </lightning:layout>
     </aura:if>
   </lightning:layout>
 </aura:component>

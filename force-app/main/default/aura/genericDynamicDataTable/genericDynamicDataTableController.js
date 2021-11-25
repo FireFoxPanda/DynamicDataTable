@@ -9,9 +9,7 @@
     component.set("v.pageNumber", component.get("v.pageNumber") - 1);
     component.set("v.hasPageChanged", true);
     helper.displayPaginationRecords(component);
-    /*   preSelectedRows = [...new Set([...currentPageRows, ...preSelectedRows])];
-    component.set("v.preSelectedRows", preSelectedRows);
-    component.set("v.selectedRows", preSelectedRows); */
+
     helper.setSelectedRows(component);
   },
 
@@ -22,15 +20,6 @@
     component.set("v.pageNumber", component.get("v.pageNumber") + 1);
     component.set("v.hasPageChanged", true);
     helper.displayPaginationRecords(component);
-    /*  currentPageRows.forEach(function (row) {
-      if (!preSelectedRows.includes(row)) {
-        preSelectedRows.push(row);
-      }
-    }); */
-    /*  preSelectedRows = [...new Set([...currentPageRows, ...preSelectedRows])];
-    component.set("v.preSelectedRows", preSelectedRows);
-
-    component.set("v.selectedRows", preSelectedRows); */
     helper.setSelectedRows(component);
   },
 
@@ -78,27 +67,15 @@
 
   handleChange: function (component, event, helper) {
     // This will contain the string of the "value" attribute of the selected option
-    var currentPageRows = component.get("v.currentPageRows");
-    var preSelectedRows = component.get("v.preSelectedRows");
-
     var selectedOptionValue = event.getParam("value");
     component.set("v.pageSize", selectedOptionValue);
     let searchedData = component.get("v.searchedData");
     helper.setPagination(component, searchedData);
-    /* preSelectedRows = [...new Set([...currentPageRows, ...preSelectedRows])];
-    component.set("v.preSelectedRows", preSelectedRows);
-    component.set("v.selectedRows", preSelectedRows); */
     helper.setSelectedRows(component);
   },
 
   handleSearch: function (component, event, helper) {
     component.set("v.hasPageChanged", true);
-    /*  var currentPageRows = component.get("v.currentPageRows");
-    var preSelectedRows = component.get("v.preSelectedRows");
-    preSelectedRows = [...new Set([...currentPageRows, ...preSelectedRows])];
-    component.set("v.preSelectedRows", preSelectedRows);
-    component.set("v.selectedRows", preSelectedRows); */
-
     helper.searchRecordsBySearchPhrase(component);
     helper.setSelectedRows(component);
   }
