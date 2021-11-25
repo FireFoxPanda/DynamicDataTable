@@ -75,6 +75,7 @@
       <div>
         Total Records : {!v.totalRecords}
         <p>No. of selected rows : {!v.noOfselecteRows}</p>
+        <p>Page Changed - {!v.hasPageChanged}</p>
       </div>
     </lightning:layoutItem>
     <lightning:layoutItem size="3" alignmentBump="right" padding="around-small">

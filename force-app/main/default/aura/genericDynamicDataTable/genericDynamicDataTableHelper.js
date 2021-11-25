@@ -112,5 +112,13 @@
       //this.totalRecords = this.originalRecords.length;
       this.setPagination(component, searchedData);
     }
+  },
+
+  setSelectedRows: function (component) {
+    var currentPageRows = component.get("v.currentPageRows");
+    var preSelectedRows = component.get("v.preSelectedRows");
+    preSelectedRows = [...new Set([...currentPageRows, ...preSelectedRows])];
+    component.set("v.preSelectedRows", preSelectedRows);
+    component.set("v.selectedRows", preSelectedRows);
   }
 });
