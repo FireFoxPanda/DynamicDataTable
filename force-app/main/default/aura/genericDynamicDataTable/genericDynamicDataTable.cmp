@@ -23,7 +23,7 @@
                              ]"
   ></aura:attribute>
 
-  <aura:attribute name="pageSize" type="Integer" default="10"></aura:attribute>
+  <aura:attribute name="pageSize" type="string" default="10"></aura:attribute>
   <aura:attribute
     name="totalRecords"
     type="Integer"
@@ -44,9 +44,10 @@
   <aura:attribute name="preSelectedRows" type="List" />
   <aura:attribute name="currentPageRows" type="List" />
   <aura:attribute name="hasPageChanged" type="Boolean" />
+  <aura:attribute name="latestSelected" type="List" />
 
   <aura:attribute name="columns" type="List" />
-  <aura:attribute name="maxRowsSelected" type="Integer" default="5" />
+  <aura:attribute name="maxRowsSelected" type="Integer" default="8" />
   <aura:attribute name="showPagination" type="Boolean" default="false" />
 
   <aura:attribute name="sortDirection" type="String" default="asc" />
@@ -145,8 +146,8 @@
             onclick="{!c.handleNextPage}"
             disabled="{!v.pageNumber == v.totalPages}"
             class="slds-p-horizontal_medium slds-float_left"
-          ></lightning:button
-        ></lightning:layoutItem>
+          ></lightning:button>
+        </lightning:layoutItem>
       </lightning:layout>
     </aura:if>
   </lightning:layout>

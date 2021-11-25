@@ -18,6 +18,29 @@
         console.log("data ", data);
         if (data) {
           console.log("data ", data);
+
+          let sObjectRelatedFieldListValues = [];
+
+          for (let row of data.lstDataTableRecords) {
+            const finalSobjectRow = {};
+            let rowIndexes = Object.keys(row);
+            rowIndexes.forEach((rowIndex) => {
+              const relatedFieldValue = row[rowIndex];
+              if (relatedFieldValue.constructor === Object) {
+                this._flattenTransformation(
+                  relatedFieldValue,
+                  finalSobjectRow,
+                  rowIndex
+                );
+              } else {
+                finalSobjectRow[rowIndex] = relatedFieldValue;
+              }
+            });
+            sObjectRelatedFieldListValues.push(finalSobjectRow);
+          }
+          //this.DataTableResponseWrappper = data;
+          //this.finalSObjectDataList = sObjectRelatedFieldListValues;
+
           component.set("v.allData", data.lstDataTableRecords);
           component.set("v.searchedData", data.lstDataTableRecords);
           component.set("v.columns", data.lstDataTableColumnProperties);
@@ -120,5 +143,13 @@
     preSelectedRows = [...new Set([...currentPageRows, ...preSelectedRows])];
     component.set("v.preSelectedRows", preSelectedRows);
     component.set("v.selectedRows", preSelectedRows);
+  },
+
+  _flattenTransformation: function (fieldValue, finalSobjectRow, fieldName) {
+    let rowIndexes = Object.keys(fieldValue);
+    rowIndexes.forEach((key) => {
+      let finalKey = fieldName + "." + key;
+      finalSobjectRow[finalKey] = fieldValue[key];
+    });
   }
 });

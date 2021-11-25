@@ -3,9 +3,6 @@
     helper.getDatableInfo(component);
   },
   handlePreviousPage: function (component, event, helper) {
-    var currentPageRows = component.get("v.currentPageRows");
-    var preSelectedRows = component.get("v.preSelectedRows");
-    console.log("Pre Selected rows  ", component.get("v.preSelectedRows"));
     component.set("v.pageNumber", component.get("v.pageNumber") - 1);
     component.set("v.hasPageChanged", true);
     helper.displayPaginationRecords(component);
@@ -14,9 +11,6 @@
   },
 
   handleNextPage: function (component, event, helper) {
-    var currentPageRows = component.get("v.currentPageRows");
-    var preSelectedRows = component.get("v.preSelectedRows");
-    console.log("Pre Selected rows  ", component.get("v.preSelectedRows"));
     component.set("v.pageNumber", component.get("v.pageNumber") + 1);
     component.set("v.hasPageChanged", true);
     helper.displayPaginationRecords(component);
@@ -27,10 +21,6 @@
     helper.setPagination(component, component.get("v.searchedData"));
   },
 
-  handleSearch: function (component, event, helper) {
-    const searchKey = event.target.value.toLowerCase();
-    console.log("searchKey --> ", searchKey);
-  },
   handleSort: function (component, event, helper) {
     helper.handleSort(component, event);
   },
@@ -78,5 +68,10 @@
     component.set("v.hasPageChanged", true);
     helper.searchRecordsBySearchPhrase(component);
     helper.setSelectedRows(component);
+  },
+  handleSelecetdRows: function (component, event, helper) {
+    let lines = [];
+    lines = component.get("v.selectedRows");
+    console.log(JSON.stringify(lines));
   }
 });

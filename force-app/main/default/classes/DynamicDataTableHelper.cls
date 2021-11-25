@@ -4,7 +4,12 @@ public without sharing class DynamicDataTableHelper {
     String sobjApiName,
     string columnFields
   ) {
-    system.debug('sobjApiName --> '+sobjApiName +'  columnFields--> '+columnFields);
+    system.debug(
+      'sobjApiName --> ' +
+      sobjApiName +
+      '  columnFields--> ' +
+      columnFields
+    );
     Map<String, String> returnMap = new Map<String, String>();
     list<String> columnList = new List<String>();
     DynamicDataTableResponseWrapper response = new DynamicDataTableResponseWrapper();
@@ -12,31 +17,89 @@ public without sharing class DynamicDataTableHelper {
     List<ColumnPropertiesWrapper> lstColumnProperties = new List<ColumnPropertiesWrapper>();
 
     if (!String.isEmpty(sobjApiName) && !String.isEmpty(columnFields)) {
-      SObject obj = (SObject) Type.forName(sobjApiName).newInstance();
+      SObject obj = (SObject) Type.forName('Account').newInstance();
       Map<String, Schema.SObjectField> fieldMap = obj.getSObjectType()
         .getDescribe()
         .fields.getMap();
       system.System.debug(
-        fieldMap.get('accountsource').getDescribe().getName()
+        fieldMap.get('look__c').getDescribe().getRelationshipName()
       );
 
       columnFields += ',Id';
       columnList = columnFields.split(',');
-
+      String columnChildField;
       for (String columnApiName : columnList) {
+        if (columnApiName.contains('__r') || columnApiName.contains('.')) {
+          columnChildField = columnApiName.substringAfter('.');
+          columnApiName = columnApiName.substringBefore('.')
+            .replace('__r', '__c');
+        }
+
         if (fieldMap.containsKey(columnApiName.toLowerCase())) {
-          ColumnPropertiesWrapper columnProperties = new ColumnPropertiesWrapper(
+          String columnChildFieldLabel;
+          if (
             String.valueOf(
-              fieldMap.get(columnApiName.toLowerCase()).getDescribe().getLabel()
-            ),
-            String.valueOf(
-              fieldMap.get(columnApiName.toLowerCase()).getDescribe().getName()
-            ),
-            String.valueOf(
-              fieldMap.get(columnApiName.toLowerCase()).getDescribe().getType()
-            )
-          );
-          lstColumnProperties.add(columnProperties);
+                fieldMap.get(columnApiName.toLowerCase())
+                  .getDescribe()
+                  .getType()
+              )
+              .equalsIgnoreCase('Reference')
+          ) {
+            Map<String, Schema.SObjectField> referenceFieldMap = fieldMap.get(
+                  columnApiName.toLowerCase()
+                )
+                .getDescribe()
+                .getReferenceTo()[0]
+              .getDescribe()
+              .fields.getMap();
+
+            if (referenceFieldMap.containsKey(columnChildField.toLowerCase())) {
+              columnChildFieldLabel = String.valueOf(
+                referenceFieldMap.get(columnChildField.toLowerCase())
+                  .getDescribe()
+                  .getName()
+              );
+            }
+
+            ColumnPropertiesWrapper columnProperties = new ColumnPropertiesWrapper(
+              String.valueOf(
+                fieldMap.get(columnApiName.toLowerCase())
+                    .getDescribe()
+                    .getReferenceTo()[0]
+                  .getDescribe()
+                  .getLabel() +
+                '( ' +
+                columnChildFieldLabel +
+                ' )'
+              ),
+              columnApiName + columnChildFieldLabel,
+              String.valueOf(
+                fieldMap.get(columnApiName.toLowerCase())
+                  .getDescribe()
+                  .getType()
+              )
+            );
+            lstColumnProperties.add(columnProperties);
+          } else {
+            ColumnPropertiesWrapper columnProperties = new ColumnPropertiesWrapper(
+              String.valueOf(
+                fieldMap.get(columnApiName.toLowerCase())
+                  .getDescribe()
+                  .getLabel()
+              ),
+              String.valueOf(
+                fieldMap.get(columnApiName.toLowerCase())
+                  .getDescribe()
+                  .getName()
+              ),
+              String.valueOf(
+                fieldMap.get(columnApiName.toLowerCase())
+                  .getDescribe()
+                  .getType()
+              )
+            );
+            lstColumnProperties.add(columnProperties);
+          }
         }
       }
 
