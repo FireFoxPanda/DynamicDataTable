@@ -1,4 +1,4 @@
 <aura:application extends="force:slds">
-  <c:genericDynamicDataTable />
+  <c:DynamicDataTableComponent />
   <!-- here c: is org. default namespace prefix-->
 </aura:application>
