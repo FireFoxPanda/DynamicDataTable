@@ -32,7 +32,6 @@
   <aura:attribute name="latestSelected" type="List" />
 
   <aura:attribute name="columns" type="List" />
-  <aura:attribute name="maxRowsSelected" type="Integer" default="8" />
   <aura:attribute name="showPagination" type="Boolean" default="false" />
 
   <aura:attribute name="sortDirection" type="String" default="asc" />
@@ -49,7 +48,7 @@
         value="{!v.pageSize}"
         placeholder="Select Progress"
         options="{!v.pageSizeOptions}"
-        onchange="{!c.handlePageSize }"
+        onchange="{!c.handleChange }"
       />
     </lightning:layoutItem>
 
@@ -76,7 +75,6 @@
         keyField="Id"
         columns="{!v.columns}"
         data="{!v.shownRecords}"
-        maxRowSelection="{!v.maxRowsSelected}"
         onrowselection="{!c.handleRowSelection}"
         showRowNumberColumn="true"
         defaultSortDirection="{!v.defaultSortDirection}"

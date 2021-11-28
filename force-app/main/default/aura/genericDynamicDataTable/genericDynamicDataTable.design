@@ -1,5 +1,0 @@
-<design:component label="Hello World">
-  <design:attribute name="sobjApiName" label="Sobject API Name" />
-  <design:attribute name="fieldList" label="Field Api Names" />
-  <design:attribute name="maxRowsSelected" label="No of rows selected at max" />
-</design:component>

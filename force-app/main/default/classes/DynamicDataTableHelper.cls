@@ -9,13 +9,9 @@ public without sharing class DynamicDataTableHelper {
     List<ColumnPropertiesWrapper> lstColumnProperties = new List<ColumnPropertiesWrapper>();
 
     if (!String.isEmpty(sobjApiName) && !String.isEmpty(columnFields)) {
-      SObject obj = (SObject) Type.forName('Account').newInstance();
+      SObject obj = (SObject) Type.forName(sobjApiName).newInstance();
       Map<String, Schema.SObjectField> fieldMap = obj.getSObjectType().getDescribe().fields.getMap();
-      system.System.debug(fieldMap.keySet());
 
-      for (String a : fieldMap.keySet()) {
-        system.debug(a);
-      }
 
       columnFields += ',Id';
       columnList = columnFields.split(',');
@@ -37,11 +33,9 @@ public without sharing class DynamicDataTableHelper {
         if (columnApiName.contains('__r')) {
           columnChildField = columnApiName.substringAfter('.');
           columnApiName = columnApiName.substringBefore('.').replace('__r', '__c');
-          system.debug('columnApiName------> ::: ' + columnApiName);
         } else if (columnApiName.contains('.')) {
           columnChildField = columnApiName.substringAfter('.');
           columnApiName = columnApiName.substringBefore('.') + 'Id';
-          system.debug('columnApiName------> ::: ' + columnApiName);
           isStandardLookup = true;
           
         }
@@ -83,8 +77,6 @@ public without sharing class DynamicDataTableHelper {
 
       response.lstDataTableRecords = Database.query(String.escapeSingleQuotes(query));
       response.lstDataTableColumnProperties = lstColumnProperties;
-      system.debug('lstColumnProperties ------ >  ' + lstColumnProperties);
-      system.debug('response ------ >  ' + response);
       return response;
     }
     return null;
