@@ -49,7 +49,7 @@
         value="{!v.pageSize}"
         placeholder="Select Progress"
         options="{!v.pageSizeOptions}"
-        onchange="{!c.handleChange }"
+        onchange="{!c.handlePageSize }"
       />
     </lightning:layoutItem>
 

@@ -18,10 +18,24 @@
         console.log("data ", data);
         if (data) {
           console.log("data ", data);
-          component.set("v.allData", data.lstDataTableRecords);
-          component.set("v.searchedData", data.lstDataTableRecords);
-          component.set("v.columns", data.lstDataTableColumnProperties);
+          let sObjectRelatedFieldListValues = [];
 
+          for (let row of data.lstDataTableRecords) {
+            const finalSobjectRow = {};
+            let rowIndexes = Object.keys(row);
+            rowIndexes.forEach((rowIndex) => {
+              const childFieldValue = row[rowIndex];
+              if (childFieldValue.constructor === Object) {
+                this.flattenRecords(childFieldValue, finalSobjectRow, rowIndex);
+              } else {
+                finalSobjectRow[rowIndex] = childFieldValue;
+              }
+            });
+            sObjectRelatedFieldListValues.push(finalSobjectRow);
+          }
+          component.set("v.allData", sObjectRelatedFieldListValues);
+          component.set("v.searchedData", sObjectRelatedFieldListValues);
+          component.set("v.columns", data.lstDataTableColumnProperties);
           component.set("v.showPagination", "true");
 
           this.setPagination(component, data.lstDataTableRecords);
@@ -38,10 +52,17 @@
     $A.enqueueAction(action);
   },
 
+  flattenRecords: function (fieldValue, finalSobjectRow, fieldName) {
+    let rowIndexes = Object.keys(fieldValue);
+    rowIndexes.forEach((key) => {
+      fieldName = fieldName.replace("__r", "__c");
+      let finalKey = fieldName + "." + key;
+      finalSobjectRow[finalKey] = fieldValue[key];
+    });
+  },
+
   setPagination: function (component, allData) {
-    let countTotalPage = Math.ceil(
-      allData.length / component.get("v.pageSize")
-    );
+    let countTotalPage = Math.ceil(allData.length / component.get("v.pageSize"));
     let totalPages = countTotalPage > 0 ? countTotalPage : 1;
     component.set("v.totalPages", totalPages);
     component.set("v.totalRecords", allData.length);
@@ -98,12 +119,7 @@
     let allData = component.get("v.allData");
     let searchedData = [];
     if (searchKey) {
-      searchedData = allData.filter((record) =>
-        JSON.stringify(record)
-          .replace(/\s+/g, " ")
-          .toLowerCase()
-          .includes(searchKey)
-      );
+      searchedData = allData.filter((record) => JSON.stringify(record).replace(/\s+/g, " ").toLowerCase().includes(searchKey));
       component.set("v.searchedData", searchedData);
       this.setPagination(component, searchedData);
     } else {

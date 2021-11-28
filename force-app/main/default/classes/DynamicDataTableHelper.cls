@@ -11,7 +11,11 @@ public without sharing class DynamicDataTableHelper {
     if (!String.isEmpty(sobjApiName) && !String.isEmpty(columnFields)) {
       SObject obj = (SObject) Type.forName('Account').newInstance();
       Map<String, Schema.SObjectField> fieldMap = obj.getSObjectType().getDescribe().fields.getMap();
-      system.System.debug(fieldMap.get('look__c').getDescribe().getRelationshipName());
+      system.System.debug(fieldMap.keySet());
+
+      for (String a : fieldMap.keySet()) {
+        system.debug(a);
+      }
 
       columnFields += ',Id';
       columnList = columnFields.split(',');
@@ -28,13 +32,21 @@ public without sharing class DynamicDataTableHelper {
 
       String columnChildField;
       for (String columnApiName : columnList) {
+        boolean isStandardLookup = false;
         //Check for reference Fields
-        if (columnApiName.contains('__r') || columnApiName.contains('.')) {
+        if (columnApiName.contains('__r')) {
           columnChildField = columnApiName.substringAfter('.');
           columnApiName = columnApiName.substringBefore('.').replace('__r', '__c');
+          system.debug('columnApiName------> ::: ' + columnApiName);
+        } else if (columnApiName.contains('.')) {
+          columnChildField = columnApiName.substringAfter('.');
+          columnApiName = columnApiName.substringBefore('.') + 'Id';
+          system.debug('columnApiName------> ::: ' + columnApiName);
+          isStandardLookup = true;
+          
         }
 
-        if (fieldMap.containsKey(columnApiName.toLowerCase())) {
+        if (fieldMap.containsKey(columnApiName.toLowerCase()) || fieldMap.containsKey(columnApiName.toLowerCase() + 'Id')) {
           //child Reference Field Name
           String columnChildFieldLabel;
           if (String.valueOf(fieldMap.get(columnApiName.toLowerCase()).getDescribe().getType()).equalsIgnoreCase('Reference')) {
@@ -46,16 +58,17 @@ public without sharing class DynamicDataTableHelper {
               columnChildFieldLabel = String.valueOf(referenceFieldMap.get(columnChildField.toLowerCase()).getDescribe().getName());
             }
 
-            ColumnPropertiesWrapper columnProperties = new ColumnPropertiesWrapper(
-              String.valueOf(
-                fieldMap.get(columnApiName.toLowerCase()).getDescribe().getReferenceTo()[0].getDescribe().getLabel() +
-                ' ( ' +
-                columnChildFieldLabel +
-                ' )'
-              ),
-              columnApiName + columnChildFieldLabel,
-              String.valueOf(fieldMap.get(columnApiName.toLowerCase()).getDescribe().getType())
-            );
+            
+            ColumnPropertiesWrapper columnProperties = new ColumnPropertiesWrapper();
+            columnProperties.label =  String.valueOf(fieldMap.get(columnApiName.toLowerCase()).getDescribe().getReferenceTo()[0].getDescribe().getLabel() + ' ( ' + columnChildFieldLabel + ' )');
+            
+            columnProperties.type = String.valueOf(fieldMap.get(columnApiName.toLowerCase()).getDescribe().getType());
+
+            if(isStandardLookup){
+               columnApiName = columnApiName.removeEnd('Id');
+            }
+            columnProperties.fieldName =   columnApiName + '.' + columnChildFieldLabel;
+            
             lstColumnProperties.add(columnProperties);
           } else {
             ColumnPropertiesWrapper columnProperties = new ColumnPropertiesWrapper(
@@ -87,6 +100,9 @@ public without sharing class DynamicDataTableHelper {
     @AuraEnabled
     public boolean sortable { get; set; }
 
+    public ColumnPropertiesWrapper() {
+      this.sortable = true;
+    }
     public ColumnPropertiesWrapper(String label, String fieldName, String type) {
       this.label = label;
       this.fieldName = fieldName;
