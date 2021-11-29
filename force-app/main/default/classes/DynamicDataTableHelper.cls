@@ -13,7 +13,7 @@ public without sharing class DynamicDataTableHelper {
       Map<String, Schema.SObjectField> fieldMap = obj.getSObjectType().getDescribe().fields.getMap();
 
 
-      columnFields += ',Id';
+     // columnFields += ',Id';
       columnList = columnFields.split(',');
 
       //prepare SOQL query based on fieldAPIs

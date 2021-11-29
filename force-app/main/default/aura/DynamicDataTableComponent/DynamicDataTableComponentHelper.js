@@ -4,8 +4,8 @@
     var sobjApiNameVal = component.get("v.sobjApiName");
     var fieldList = component.get("v.fieldList");
 
-    console.log(sobjApiNameVal);
-    console.log(fieldList);
+    //console.log(sobjApiNameVal);
+    //console.log(fieldList);
     action.setParams({
       sobjApiName: sobjApiNameVal,
       columnFields: fieldList
@@ -15,9 +15,9 @@
       console.log("state ", state);
       if (state === "SUCCESS") {
         var data = response.getReturnValue();
-        console.log("data ", data);
+        // console.log("data ", data);
         if (data) {
-          console.log("data ", data);
+          // console.log("data ", data);
           let sObjectRelatedFieldListValues = [];
 
           for (let row of data.lstDataTableRecords) {
@@ -33,6 +33,8 @@
             });
             sObjectRelatedFieldListValues.push(finalSobjectRow);
           }
+
+          console.log(sObjectRelatedFieldListValues);
           component.set("v.allData", sObjectRelatedFieldListValues);
           component.set("v.searchedData", sObjectRelatedFieldListValues);
           component.set("v.columns", data.lstDataTableColumnProperties);
