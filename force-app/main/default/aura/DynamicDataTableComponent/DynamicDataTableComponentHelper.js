@@ -97,8 +97,9 @@
         };
 
     return function (a, b) {
-      a = key(a);
-      b = key(b);
+      a = key(a) ? key(a) : "";
+      b = key(b) ? key(b) : "";
+
       return reverse * ((a > b) - (b > a));
     };
   },
@@ -109,7 +110,6 @@
 
     var cloneData = component.get("v.allData");
     cloneData.sort(this.sortBy(sortedBy, sortDirection === "asc" ? 1 : -1));
-
     component.set("v.searchedData", cloneData);
     component.set("v.sortDirection", sortDirection);
     component.set("v.sortedBy", sortedBy);
