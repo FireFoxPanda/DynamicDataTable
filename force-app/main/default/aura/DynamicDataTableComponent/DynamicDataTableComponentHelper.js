@@ -150,5 +150,12 @@
     } else {
       component.set("v.maxRowSelection", component.get("v.originalMaxRowSelection"));
     }
+  },
+
+  setRowNo: function (component) {
+    let pageNumber = component.get("v.pageNumber") - 1;
+    let pageSize = component.get("v.pageSize");
+    let startingPageRowNo = (pageNumber - 1) * pageSize;
+    component.set("v.startingPageRowNo", startingPageRowNo);
   }
 });

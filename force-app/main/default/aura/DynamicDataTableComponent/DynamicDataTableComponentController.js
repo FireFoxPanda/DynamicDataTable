@@ -67,6 +67,7 @@
     helper.setPagination(component, searchedData);
     helper.setSelectedRows(component);
     helper.checkMaxrowSelection(component);
+    helper.setRowNo(component);
   },
 
   handleSearch: function (component, event, helper) {
@@ -74,5 +75,6 @@
     helper.searchRecordsBySearchPhrase(component);
     helper.setSelectedRows(component);
     helper.checkMaxrowSelection(component);
+    helper.setRowNo(component);
   }
 });
