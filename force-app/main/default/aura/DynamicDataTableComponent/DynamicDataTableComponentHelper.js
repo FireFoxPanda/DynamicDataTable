@@ -138,5 +138,17 @@
     preSelectedRows = [...new Set([...currentPageRows, ...preSelectedRows])];
     component.set("v.preSelectedRows", preSelectedRows);
     component.set("v.selectedRows", preSelectedRows);
+  },
+
+  checkMaxrowSelection: function (component) {
+    let selectedRows = component.get("v.preSelectedRows").length;
+    let maxRows = component.get("v.maxRowSelection");
+    console.log("selectedRows  ", selectedRows);
+    console.log("maxRows  ", maxRows);
+    if (selectedRows >= maxRows) {
+      component.set("v.maxRowSelection", 0);
+    } else {
+      component.set("v.maxRowSelection", component.get("v.originalMaxRowSelection"));
+    }
   }
 });

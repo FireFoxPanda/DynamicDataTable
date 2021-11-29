@@ -1,6 +1,7 @@
 ({
   init: function (component, event, helper) {
     helper.getDatableInfo(component);
+    component.set("v.originalMaxRowSelection", component.get("v.maxRowSelection"));
   },
   handlePreviousPage: function (component, event, helper) {
     let pageNumber = component.get("v.pageNumber") - 1;
@@ -13,6 +14,7 @@
     let pageSize = component.get("v.pageSize");
     let startingPageRowNo = (pageNumber - 1) * pageSize;
     component.set("v.startingPageRowNo", startingPageRowNo);
+    helper.checkMaxrowSelection(component);
   },
 
   handleNextPage: function (component, event, helper) {
@@ -24,6 +26,7 @@
     let pageSize = component.get("v.pageSize");
     let startingPageRowNo = (pageNumber - 1) * pageSize;
     component.set("v.startingPageRowNo", startingPageRowNo);
+    helper.checkMaxrowSelection(component);
   },
 
   handleRecordsPerPage: function (component, event, helper) {
@@ -63,11 +66,13 @@
     let searchedData = component.get("v.searchedData");
     helper.setPagination(component, searchedData);
     helper.setSelectedRows(component);
+    helper.checkMaxrowSelection(component);
   },
 
   handleSearch: function (component, event, helper) {
     component.set("v.hasPageChanged", true);
     helper.searchRecordsBySearchPhrase(component);
     helper.setSelectedRows(component);
+    helper.checkMaxrowSelection(component);
   }
 });

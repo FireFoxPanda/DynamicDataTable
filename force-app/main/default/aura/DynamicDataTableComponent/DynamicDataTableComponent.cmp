@@ -20,6 +20,8 @@
   <aura:attribute name="noOfselecteRows" type="Integer" default="0"></aura:attribute>
   <aura:attribute name="pageNumber" type="Integer" default="1"></aura:attribute>
   <aura:attribute name="totalPages" type="Integer" default="0"></aura:attribute>
+  <aura:attribute name="maxRowSelection" type="Integer" default="5"></aura:attribute>
+  <aura:attribute name="originalMaxRowSelection" type="Integer" default="5"></aura:attribute>
   <aura:attribute name="shownRecords" type="Object" />
 
   <aura:attribute name="searchedData" type="List" />
@@ -80,6 +82,7 @@
         showRowNumberColumn="true"
         defaultSortDirection="{!v.defaultSortDirection}"
         rowNumberOffset="{!v.startingPageRowNo}"
+        maxRowSelection="{!v.maxRowSelection}"
         sortedDirection="{!v.sortDirection}"
         sortedBy="{!v.sortedBy}"
         onsort="{!c.handleSort}"
