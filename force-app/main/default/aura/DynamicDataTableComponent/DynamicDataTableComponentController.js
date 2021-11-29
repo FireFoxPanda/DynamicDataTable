@@ -3,18 +3,27 @@
     helper.getDatableInfo(component);
   },
   handlePreviousPage: function (component, event, helper) {
-    component.set("v.pageNumber", component.get("v.pageNumber") - 1);
+    let pageNumber = component.get("v.pageNumber") - 1;
+    component.set("v.pageNumber", pageNumber);
+    //component.set("v.pageNumber", component.get("v.pageNumber") - 1);
     component.set("v.hasPageChanged", true);
     helper.displayPaginationRecords(component);
 
     helper.setSelectedRows(component);
+    let pageSize = component.get("v.pageSize");
+    let startingPageRowNo = (pageNumber - 1) * pageSize;
+    component.set("v.startingPageRowNo", startingPageRowNo);
   },
 
   handleNextPage: function (component, event, helper) {
-    component.set("v.pageNumber", component.get("v.pageNumber") + 1);
+    let pageNumber = component.get("v.pageNumber") + 1;
+    component.set("v.pageNumber", pageNumber);
     component.set("v.hasPageChanged", true);
     helper.displayPaginationRecords(component);
     helper.setSelectedRows(component);
+    let pageSize = component.get("v.pageSize");
+    let startingPageRowNo = (pageNumber - 1) * pageSize;
+    component.set("v.startingPageRowNo", startingPageRowNo);
   },
 
   handleRecordsPerPage: function (component, event, helper) {

@@ -31,6 +31,7 @@
   <aura:attribute name="hasPageChanged" type="Boolean" />
   <aura:attribute name="latestSelected" type="List" />
 
+  <aura:attribute name="startingPageRowNo" type="Integer" default="0" />
   <aura:attribute name="columns" type="List" />
   <aura:attribute name="showPagination" type="Boolean" default="false" />
 
@@ -78,6 +79,7 @@
         onrowselection="{!c.handleRowSelection}"
         showRowNumberColumn="true"
         defaultSortDirection="{!v.defaultSortDirection}"
+        rowNumberOffset="{!v.startingPageRowNo}"
         sortedDirection="{!v.sortDirection}"
         sortedBy="{!v.sortedBy}"
         onsort="{!c.handleSort}"
