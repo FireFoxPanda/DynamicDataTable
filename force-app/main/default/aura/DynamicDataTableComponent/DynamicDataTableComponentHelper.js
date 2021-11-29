@@ -141,12 +141,16 @@
   },
 
   checkMaxrowSelection: function (component) {
-    let selectedRows = component.get("v.preSelectedRows").length;
+    let currentRows = component.find("dynamicDataTable").getSelectedRows().length;
+
+    let selectedRows = component.get("v.selectedRows").length;
+    let totalRows = currentRows + selectedRows;
     let maxRows = component.get("v.maxRowSelection");
-    console.log("selectedRows  ", selectedRows);
-    console.log("maxRows  ", maxRows);
-    if (selectedRows >= maxRows) {
-      component.set("v.maxRowSelection", 0);
+    console.log("selectedRows  ", component.get("v.selectedRows"));
+    console.log("getSelecetdRows  ", component.find("dynamicDataTable").getSelectedRows());
+    if (totalRows >= maxRows) {
+      let max = component.find("dynamicDataTable").getSelectedRows().length;
+      component.set("v.maxRowSelection", max);
     } else {
       component.set("v.maxRowSelection", component.get("v.originalMaxRowSelection"));
     }

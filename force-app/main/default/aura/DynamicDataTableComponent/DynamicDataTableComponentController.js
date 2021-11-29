@@ -14,7 +14,7 @@
     let pageSize = component.get("v.pageSize");
     let startingPageRowNo = (pageNumber - 1) * pageSize;
     component.set("v.startingPageRowNo", startingPageRowNo);
-    helper.checkMaxrowSelection(component);
+    // helper.checkMaxrowSelection(component);
   },
 
   handleNextPage: function (component, event, helper) {
@@ -26,7 +26,7 @@
     let pageSize = component.get("v.pageSize");
     let startingPageRowNo = (pageNumber - 1) * pageSize;
     component.set("v.startingPageRowNo", startingPageRowNo);
-    helper.checkMaxrowSelection(component);
+    //   helper.checkMaxrowSelection(component);
   },
 
   handleRecordsPerPage: function (component, event, helper) {
@@ -37,7 +37,7 @@
     helper.handleSort(component, event);
   },
 
-  handleRowSelection: function (component, event) {
+  handleRowSelection: function (component, event, helper) {
     var selectRows = event.getParam("selectedRows");
     var selectedRows = [];
     selectedRows = selectRows.map((row) => row.Id);
@@ -58,6 +58,7 @@
     }
     const uniqueRecords = [...new Set([...currentPageRows, ...preSelectedRows])];
     component.set("v.noOfselecteRows", uniqueRecords.length);
+    //  helper.checkMaxrowSelection(component);
   },
 
   handlePageSize: function (component, event, helper) {
@@ -66,7 +67,7 @@
     let searchedData = component.get("v.searchedData");
     helper.setPagination(component, searchedData);
     helper.setSelectedRows(component);
-    helper.checkMaxrowSelection(component);
+    //helper.checkMaxrowSelection(component);
     helper.setRowNo(component);
   },
 
@@ -74,7 +75,7 @@
     component.set("v.hasPageChanged", true);
     helper.searchRecordsBySearchPhrase(component);
     helper.setSelectedRows(component);
-    helper.checkMaxrowSelection(component);
+    //helper.checkMaxrowSelection(component);
     helper.setRowNo(component);
   }
 });
