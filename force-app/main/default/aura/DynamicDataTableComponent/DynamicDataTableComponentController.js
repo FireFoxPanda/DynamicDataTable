@@ -15,6 +15,13 @@
     let startingPageRowNo = (pageNumber - 1) * pageSize;
     component.set("v.startingPageRowNo", startingPageRowNo);
     // helper.checkMaxrowSelection(component);
+    /*   let allSelecetdCurrentRows = component.find("dynamicDataTable").getSelectedRows();
+    let selectedRows = allSelecetdCurrentRows.map((row) => row.Id);
+
+    var preSelectedRows = component.get("v.preSelectedRows");
+    var currentPageRows = component.get("v.currentPageRows");
+    currentPageRows = selectedRows; */
+    helper.isPageChanged(component);
   },
 
   handleNextPage: function (component, event, helper) {
@@ -26,7 +33,13 @@
     let pageSize = component.get("v.pageSize");
     let startingPageRowNo = (pageNumber - 1) * pageSize;
     component.set("v.startingPageRowNo", startingPageRowNo);
-    //   helper.checkMaxrowSelection(component);
+    /*   let allSelecetdCurrentRows = component.find("dynamicDataTable").getSelectedRows();
+    let selectedRows = allSelecetdCurrentRows.map((row) => row.Id);
+
+    var preSelectedRows = component.get("v.preSelectedRows");
+    var currentPageRows = component.get("v.currentPageRows");
+    currentPageRows = selectedRows; */
+    helper.isPageChanged(component);
   },
 
   handleRecordsPerPage: function (component, event, helper) {
@@ -35,6 +48,7 @@
 
   handleSort: function (component, event, helper) {
     helper.handleSort(component, event);
+    helper.setSelectedRows(component);
   },
 
   handleRowSelection: function (component, event, helper) {
@@ -47,18 +61,12 @@
     var preSelectedRows = component.get("v.preSelectedRows");
     currentPageRows = selectedRows;
 
-    if (isPageChanged) {
-      preSelectedRows = preSelectedRows.filter((item) => !selectedRows.includes(item));
-      component.set("v.currentPageRows", currentPageRows);
-      component.set("v.preSelectedRows", preSelectedRows);
-      component.set("v.hasPageChanged", false);
-    } else {
+    if (!isPageChanged) {
       currentPageRows = selectedRows;
       component.set("v.currentPageRows", currentPageRows);
     }
     const uniqueRecords = [...new Set([...currentPageRows, ...preSelectedRows])];
     component.set("v.noOfselecteRows", uniqueRecords.length);
-    //  helper.checkMaxrowSelection(component);
   },
 
   handlePageSize: function (component, event, helper) {
@@ -67,7 +75,6 @@
     let searchedData = component.get("v.searchedData");
     helper.setPagination(component, searchedData);
     helper.setSelectedRows(component);
-    //helper.checkMaxrowSelection(component);
     helper.setRowNo(component);
   },
 
@@ -75,7 +82,6 @@
     component.set("v.hasPageChanged", true);
     helper.searchRecordsBySearchPhrase(component);
     helper.setSelectedRows(component);
-    //helper.checkMaxrowSelection(component);
     helper.setRowNo(component);
   }
 });

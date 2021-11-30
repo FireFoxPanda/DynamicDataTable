@@ -32,6 +32,7 @@
   <aura:attribute name="currentPageRows" type="List" />
   <aura:attribute name="hasPageChanged" type="Boolean" />
   <aura:attribute name="latestSelected" type="List" />
+  <aura:attribute name="newRows" type="List" />
 
   <aura:attribute name="startingPageRowNo" type="Integer" default="0" />
   <aura:attribute name="columns" type="List" />

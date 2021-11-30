@@ -108,7 +108,7 @@
     var sortedBy = event.getParam("fieldName");
     var sortDirection = event.getParam("sortDirection");
 
-    var cloneData = component.get("v.allData");
+    var cloneData = component.get("v.searchedData");
     cloneData.sort(this.sortBy(sortedBy, sortDirection === "asc" ? 1 : -1));
     component.set("v.searchedData", cloneData);
     component.set("v.sortDirection", sortDirection);
@@ -161,5 +161,17 @@
     let pageSize = component.get("v.pageSize");
     let startingPageRowNo = (pageNumber - 1) * pageSize;
     component.set("v.startingPageRowNo", startingPageRowNo);
+  },
+
+  isPageChanged: function (component) {
+    let allSelecetdCurrentRows = component.find("dynamicDataTable").getSelectedRows();
+
+    let selectedRows = allSelecetdCurrentRows.map((row) => row.Id);
+    var preSelectedRows = component.get("v.preSelectedRows");
+
+    preSelectedRows = preSelectedRows.filter((item) => !selectedRows.includes(item));
+    component.set("v.currentPageRows", selectedRows);
+    component.set("v.preSelectedRows", preSelectedRows);
+    component.set("v.hasPageChanged", false);
   }
 });
