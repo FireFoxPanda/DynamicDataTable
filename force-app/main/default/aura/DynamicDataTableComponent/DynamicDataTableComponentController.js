@@ -14,13 +14,6 @@
     let pageSize = component.get("v.pageSize");
     let startingPageRowNo = (pageNumber - 1) * pageSize;
     component.set("v.startingPageRowNo", startingPageRowNo);
-    // helper.checkMaxrowSelection(component);
-    /*   let allSelecetdCurrentRows = component.find("dynamicDataTable").getSelectedRows();
-    let selectedRows = allSelecetdCurrentRows.map((row) => row.Id);
-
-    var preSelectedRows = component.get("v.preSelectedRows");
-    var currentPageRows = component.get("v.currentPageRows");
-    currentPageRows = selectedRows; */
     helper.isPageChanged(component);
   },
 
@@ -33,12 +26,7 @@
     let pageSize = component.get("v.pageSize");
     let startingPageRowNo = (pageNumber - 1) * pageSize;
     component.set("v.startingPageRowNo", startingPageRowNo);
-    /*   let allSelecetdCurrentRows = component.find("dynamicDataTable").getSelectedRows();
-    let selectedRows = allSelecetdCurrentRows.map((row) => row.Id);
 
-    var preSelectedRows = component.get("v.preSelectedRows");
-    var currentPageRows = component.get("v.currentPageRows");
-    currentPageRows = selectedRows; */
     helper.isPageChanged(component);
   },
 
