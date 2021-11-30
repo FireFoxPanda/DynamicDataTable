@@ -23,6 +23,7 @@
   <aura:attribute name="maxRowSelection" type="Integer" default="5"></aura:attribute>
   <aura:attribute name="originalMaxRowSelection" type="Integer" default="5"></aura:attribute>
   <aura:attribute name="shownRecords" type="Object" />
+  <aura:attribute name="validate" type="Aura.Action" />
 
   <aura:attribute name="searchedData" type="List" />
   <aura:attribute name="allData" type="list" />
@@ -41,6 +42,9 @@
   <aura:attribute name="sortDirection" type="String" default="asc" />
   <aura:attribute name="defaultSortDirection" type="String" default="asc" />
   <aura:attribute name="sortedBy" type="String" />
+
+  <c:flowFooterComponent availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}" />
+  <aura:registerEvent name="navigateFlow" type="c:navigateFlow" />
 
   <aura:handler name="init" value="{!this }" action="{!c.init }" />
 

@@ -133,6 +133,7 @@
   },
 
   setSelectedRows: function (component) {
+    console.log("Here");
     var currentPageRows = component.get("v.currentPageRows");
     var preSelectedRows = component.get("v.preSelectedRows");
     preSelectedRows = [...new Set([...currentPageRows, ...preSelectedRows])];
@@ -173,5 +174,17 @@
     component.set("v.currentPageRows", selectedRows);
     component.set("v.preSelectedRows", preSelectedRows);
     component.set("v.hasPageChanged", false);
+  },
+  showError: function (component, event, helper) {
+    var toastEvent = $A.get("e.force:showToast");
+    toastEvent.setParams({
+      title: "Error",
+      message: "At least one row selection is required",
+      duration: " 5000",
+      key: "info_alt",
+      type: "error",
+      mode: "pester"
+    });
+    toastEvent.fire();
   }
 });
