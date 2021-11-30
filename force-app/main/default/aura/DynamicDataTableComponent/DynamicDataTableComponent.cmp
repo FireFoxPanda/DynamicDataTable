@@ -82,7 +82,6 @@
         showRowNumberColumn="true"
         defaultSortDirection="{!v.defaultSortDirection}"
         rowNumberOffset="{!v.startingPageRowNo}"
-        maxRowSelection="{!v.maxRowSelection}"
         sortedDirection="{!v.sortDirection}"
         sortedBy="{!v.sortedBy}"
         onsort="{!c.handleSort}"
