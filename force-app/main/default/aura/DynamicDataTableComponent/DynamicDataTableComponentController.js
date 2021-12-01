@@ -76,6 +76,7 @@
     helper.setPagination(component, searchedData);
     helper.setSelectedRows(component);
     helper.setRowNo(component);
+    helper.isPageChanged(component);
   },
 
   handleSearch: function (component, event, helper) {
@@ -83,5 +84,6 @@
     helper.searchRecordsBySearchPhrase(component);
     helper.setSelectedRows(component);
     helper.setRowNo(component);
+    helper.isPageChanged(component);
   }
 });
