@@ -141,22 +141,6 @@
     component.set("v.selectedRows", preSelectedRows);
   },
 
-  checkMaxrowSelection: function (component) {
-    let currentRows = component.find("dynamicDataTable").getSelectedRows().length;
-
-    let selectedRows = component.get("v.selectedRows").length;
-    let totalRows = currentRows + selectedRows;
-    let maxRows = component.get("v.maxRowSelection");
-    console.log("selectedRows  ", component.get("v.selectedRows"));
-    console.log("getSelecetdRows  ", component.find("dynamicDataTable").getSelectedRows());
-    if (totalRows >= maxRows) {
-      let max = component.find("dynamicDataTable").getSelectedRows().length;
-      component.set("v.maxRowSelection", max);
-    } else {
-      component.set("v.maxRowSelection", component.get("v.originalMaxRowSelection"));
-    }
-  },
-
   setRowNo: function (component) {
     let pageNumber = component.get("v.pageNumber") - 1;
     let pageSize = component.get("v.pageSize");
@@ -183,7 +167,7 @@
       duration: " 5000",
       key: "info_alt",
       type: "error",
-      mode: "pester"
+      mode: "dismissible"
     });
     toastEvent.fire();
   }

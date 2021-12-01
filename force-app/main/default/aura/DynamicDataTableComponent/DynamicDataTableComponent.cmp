@@ -20,30 +20,25 @@
   <aura:attribute name="noOfselecteRows" type="Integer" default="0"></aura:attribute>
   <aura:attribute name="pageNumber" type="Integer" default="1"></aura:attribute>
   <aura:attribute name="totalPages" type="Integer" default="0"></aura:attribute>
-  <aura:attribute name="maxRowSelection" type="Integer" default="5"></aura:attribute>
-  <aura:attribute name="originalMaxRowSelection" type="Integer" default="5"></aura:attribute>
   <aura:attribute name="shownRecords" type="Object" />
   <aura:attribute name="validate" type="Aura.Action" />
 
   <aura:attribute name="searchedData" type="List" />
   <aura:attribute name="allData" type="list" />
-  <aura:attribute name="searchPhrase" type="String" />
   <aura:attribute name="selectedRows" type="List" />
   <aura:attribute name="preSelectedRows" type="List" />
   <aura:attribute name="currentPageRows" type="List" />
   <aura:attribute name="hasPageChanged" type="Boolean" />
-  <aura:attribute name="latestSelected" type="List" />
-  <aura:attribute name="newRows" type="List" />
 
   <aura:attribute name="startingPageRowNo" type="Integer" default="0" />
   <aura:attribute name="columns" type="List" />
   <aura:attribute name="showPagination" type="Boolean" default="false" />
 
+  <aura:attribute name="searchPhrase" type="String" />
   <aura:attribute name="sortDirection" type="String" default="asc" />
   <aura:attribute name="defaultSortDirection" type="String" default="asc" />
   <aura:attribute name="sortedBy" type="String" />
 
-  <c:flowFooterComponent availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}" />
   <aura:registerEvent name="navigateFlow" type="c:navigateFlow" />
 
   <aura:handler name="init" value="{!this }" action="{!c.init }" />
