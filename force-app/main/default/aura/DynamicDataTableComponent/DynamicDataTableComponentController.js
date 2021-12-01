@@ -9,9 +9,7 @@
       helper.setSelectedRows(component);
       var allSelectedRows = component.get("v.selectedRows");
 
-      console.log("allSelectedRows ", allSelectedRows);
       var preSelectedRows = component.get("v.preSelectedRows");
-      console.log("preSelectedRows ", preSelectedRows);
       if (allSelectedRows.length < 1) {
         helper.showError();
         return { isValid: false, errorMessage: "" };
@@ -85,11 +83,5 @@
     helper.searchRecordsBySearchPhrase(component);
     helper.setSelectedRows(component);
     helper.setRowNo(component);
-  },
-
-  handleNavigate: function (cmp, event) {
-    console.log("Navigate Component");
-    var navigate = cmp.get("v.navigateFlow");
-    navigate(event.getParam("action"));
   }
 });
